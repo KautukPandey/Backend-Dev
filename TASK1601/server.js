@@ -14,7 +14,7 @@ const server = http.createServer((req,res)=>{
             res.end(JSON.stringify({message: "Missing required fields"}))
         }
 
-        const fileName = priority === "high" ? "URGENT.txt": "normal_complaints.txt";
+        const fileName = priority === "high" ? "UR GENT.txt": "normal_complaints.txt";
         const logMessage = `id- ${ticketId}
                             name- ${name}
                             issue- ${issue}
