@@ -1,32 +1,44 @@
-const express = require('express')
-const app = expresss()
+const express = require('express');
+const app = express();
 
-const PORT = 8000
+const PORT = 8000;
 
-const students= [
-    {id:1,name:"Raj",branch: "CSE"},
-    {id:2,name:"Raj1",branch: "ECE"},
-    {id:3,name:"Raj2",branch: "IT"}]
+const students = [
+    {id : 1, name: 'Raj', branch: 'CSE'},
+    {id : 2, name: 'Ajay', branch: 'ECE'},
+    {id : 3, name: 'Yash', branch: 'ME'},
+];
 
-app.get('/',(req,res)=>{
-    res.send("Welcome to Home Page")
-})
+app.get('/students', (req, res) => {
+    const branch = req.query.branch
+    if(!branch){
+        
+    }
+    const foundStudents = students.filter((s)=>s.branch==branch)
+    res.json(foundStudents)
+});
 
-app.get('/students',(req,res)=>{
-    res.json(students)
-})
+app.get('/students/:id', (req, res) => {
+    const student = students.find(s => s.id === parseInt(req.params.id));
+    if (!student) {
+        return res.status(404).send("Student not found");
+    }
+    res.json(student);
+
+    const id = req.params.id
+    const arrayIndex = students.findIndex()
+
+});
+
+app.get('students/search', (req, res) => {
+    const searcQuery = req.query.name;
+    console.log(req.query);
+});
 
 app.get('/students/:id',(req,res)=>{
-    res.send("")
-})
-
-
-app.get('/students/search',(req,res)=>{
-    const searchQuery = req.query;
-    console.log(req.query);
     
 })
-app.listen(PORT,()=>{
-    console.log(`Server running on ${PORT}`);
-    
-})
+
+app.listen(PORT, () => {
+    console.log(`Server is running on ${PORT}`);
+});
