@@ -19,14 +19,13 @@ app.get('/students', (req, res) => {
 });
 
 app.get('/students/:id', (req, res) => {
-    const student = students.find(s => s.id === parseInt(req.params.id));
-    if (!student) {
-        return res.status(404).send("Student not found");
-    }
-    res.json(student);
-
     const id = req.params.id
-    const arrayIndex = students.findIndex()
+    const arrayIndex = students.findIndex((s)=>s.id==id)
+    if(arrayIndex==-1){
+        return res.status(404).send("Student nor found")
+    }
+    const foundStudent = students[arrayIndex]
+    res.json({foundStudent})
 
 });
 
