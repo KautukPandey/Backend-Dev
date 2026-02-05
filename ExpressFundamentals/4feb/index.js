@@ -1,4 +1,4 @@
-import express from "express"
+const express = require('express')
 
 const app = express()
 
@@ -9,7 +9,7 @@ const students = [
 ];
 
 app.put('/student/update/:id',(req,res)=>{
-    const id = req.params.id
+    const id = parseInt(req.params.id)
     const {name,branch} = req.body
     if(!id){
         return res.status(400).json({message:"Empty Id"})
@@ -37,6 +37,8 @@ app.delete('/students/:id', (req, res) => {
   students.splice(studentIndex, 1); 
   res.status(200).send(`Student with ID ${studentId} deleted.`);
 });
+
+
 app.listen(5000,()=>{
     console.log(`Server running on PORT 5000`);
     
