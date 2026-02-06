@@ -7,9 +7,16 @@ app.use(express.json());
 
 const filePath = path.join(__dirname, 'students.json');
 
+const readStudentsFromFile = ()=>{
+    const results = fs.readFile('./students.json','utf-8',(err,data)=>{
+        const students = JSON.parse(data || "[]");
+        return students
+    })
+    
+}
 
 if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, '[]');
+    fs.writeFileSync(filePath, '[]');   
 }
 
 app.post('/students/register', (req, res) => {
@@ -19,14 +26,8 @@ app.post('/students/register', (req, res) => {
         return res.status(400).json({ message: "Name and branch are required" });
     }
 
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error(err); 
-            return res.status(500).json({ message: "Error reading student data" });
-        }
-
-        const students = JSON.parse(data || '[]');
-
+   
+    const existingStudents = readStudentsFromFile();
         const newStudent = {
             id: students.length ? students[students.length - 1].id + 1 : 1,
             name,
@@ -45,8 +46,8 @@ app.post('/students/register', (req, res) => {
                 message: "Student registered successfully",
                 student: newStudent
             });
+        
         });
-    });
 });
 
 app.put("/students/:id",(req,res)=>{
@@ -64,6 +65,7 @@ app.put("/students/:id",(req,res)=>{
     const result = { message:"Updated sucessfully",students: students}
     return res.status(200).json(result)
 })
+
 
 app.listen(5000, () => {
     console.log('Server running on PORT 5000');
