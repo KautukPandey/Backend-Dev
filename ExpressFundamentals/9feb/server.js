@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const fs = require('fs')
 const PORT = 3000
-``
+
 app.listen(PORT,()=>{
     console.log(`Server running on ${PORT}`);
 })
@@ -12,7 +12,14 @@ const fileAuthMiddleware = (req,res,next)=>{
     return res.send("auth failed")
 }
 app.use((req,res,next)=>{
-    const token = req.headers("authorization")
+    const log = `\n Request at: ${new Date().toLocaleString()}, Request method:${req}`
+
+    fs.appendFile("log.txt",log,(err)=>{
+        if(err){
+            console.log(err);
+        }
+    })
+    next()
 })
 
 const readStudentsFromFile = async(req,res)=>{
