@@ -74,4 +74,28 @@ const updateStudent = async (req, res) => {
     }
 };
 
-module.exports = { getAllStudents, createStudent , updateStudent };
+const deleteStudent = async (req,res) => {
+    try {
+        const { id } = req.params;
+        let students = await db.readStudentsFromFile();
+
+        if (!students || students.length === 0) {
+            return res.status(404).json({ message: "No students found" });
+        }
+        if (index === -1) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+        
+        await db.writeStudentsToFile(students);
+
+        res.status(200).json({
+            message: "Student updated successfully",
+            student: students[index]
+        });
+        const index = students.findIndex(s => s.id == id);
+    } catch (error) {
+        
+    }
+}
+
+module.exports = { getAllStudents, createStudent , updateStudent , deleteStudent };
