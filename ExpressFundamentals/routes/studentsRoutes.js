@@ -4,7 +4,7 @@ const router = express.Router()
 const {getAllStudents,createStudents,updateStudent,deleteStudent} = require('../controllers')
 router.get("/",getAllStudents)
 router.post("/",createStudents)
-router.post("/update:id",updateStudent)
-router.post("/update:id",deleteStudent)
+router.post("/update/:id",updateStudent)
+router.post("/delete/:id",deleteStudent)
 
 module.exports = router

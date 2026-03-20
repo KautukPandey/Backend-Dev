@@ -79,20 +79,19 @@ const deleteStudent = async (req,res) => {
         const { id } = req.params;
         let students = await db.readStudentsFromFile();
 
+        const index = students.findIndex(s => s.id == id);
         if (!students || students.length === 0) {
             return res.status(404).json({ message: "No students found" });
         }
         if (index === -1) {
             return res.status(404).json({ message: "Student not found" });
         }
-        
+        students.splice(index,1)
         await db.writeStudentsToFile(students);
 
         res.status(200).json({
-            message: "Student updated successfully",
-            student: students[index]
+            message: "Student deleted successfully"
         });
-        const index = students.findIndex(s => s.id == id);
     } catch (error) {
         
     }
